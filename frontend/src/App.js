@@ -1,18 +1,37 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Api from './services/Api';
 
 class App extends Component {
+  state = {
+    data: null
+  };
+
+  componentDidMount() {
+    Api.fetchDataFromEndpoint('http://178.128.245.253').then(data => {
+      this.setState({
+        data: data
+      }, () => {
+        console.log(this.state.data)
+      });
+    });
+  }
+
+  componentWillUnmount() {
+    this.setState({data: null});
+  }
+
   render() {
+    const data = this.state.data;
+    const list = this.state.data.asks.map((item) => {
+      return (<li>item</li>);
+    });
+
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+      <div>
+        <h1>Hello world!</h1>
+        {data === null ? <p>loading...</p> : (<div>{this.state.data.pair}</div>)}
+        {data !== null && list}
       </div>
     );
   }
