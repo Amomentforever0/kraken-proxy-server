@@ -8,10 +8,10 @@ export default class Api {
             this.xhr = new XMLHttpRequest();
             this.xhr.open('GET', endpoint, true);
             this.xhr.send();
-            request.onreadystatechange = () => {
-                if(request.readyState === 4 && request.status === 200) {
-                    resolve(JSON.parse(request.responseText));
-                } else if(request.status !== 200) {
+            this.xhr.onreadystatechange = () => {
+                if(this.xhr.readyState === 4 && this.xhr.status === 200) {
+                    resolve(JSON.parse(this.xhr.responseText));
+                } else if(this.xhr.status !== 200) {
                     reject(new Error('Cannot fetch data...'));
                 }
             };
